@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import jakarta.persistence.Enumerated;
+import lombok.Getter;
 
 public class Viagem {
   
@@ -15,12 +16,15 @@ public class Viagem {
   private String dataInicioViagem;
   private String horaDoInicioDaViagem;
   private String tempoEstimadoViagem;
+  @Getter
   private Participantes participantes;
+  @Getter
   private BigDecimal valorEstimado;
   @Enumerated
   private Local localDePartida;
   @Enumerated
   private Local localDeChegada;
+  @Getter
   private ArrayList<Local> paradas;
 
 
@@ -33,32 +37,16 @@ public class Viagem {
     return LocalDate.parse(this.dataInicioViagem, formatador);
   }
 
-  public String getTempoEstimadoViagem() {
-    return this.tempoEstimadoViagem;
-  }
-
   public LocalTime getHoraDoInicioDaViagem() {
     DateTimeFormatter formatador = DateTimeFormatter.ofPattern(padraoDeFormatacaoDeTempo);
     return LocalTime.parse(this.horaDoInicioDaViagem, formatador);
   }
 
-  public Participantes getParticipantes() {
-    return this.participantes;
-  }
-
-  public String getLocalDePartida() {
+    public String getLocalDePartida() {
     return this.localDePartida.mostrarConteudo();
   }
 
-  public BigDecimal getValorEstimado() {
-    return this.valorEstimado;
-  }
-  
-  public ArrayList<Local> getParadas() {
-    return this.paradas;
-  }
-
-  public String getLocalDeChegada() {
+    public String getLocalDeChegada() {
     return this.localDeChegada.mostrarConteudo();
   }
 

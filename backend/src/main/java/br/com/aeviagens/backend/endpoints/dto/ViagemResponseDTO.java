@@ -10,25 +10,23 @@ import lombok.Setter;
 
 @Setter
 public class ViagemResponseDTO {
-  public LocalDate dataDeSaida;
-  public LocalDate dataEstimadaDeChegada;
-  public LocalTime horaDeSaida;
-  public LocalTime horaEstimadaDeChegada;
-  public String localDePartidaComDescricao;
-  public String localDeSaidaComDescricao;
-  public BigDecimal ValorEstimado;
+  private LocalDate dataDeSaida;
+  private LocalDate dataEstimadaDeChegada;
+  private LocalTime horaDeSaida;
+  private LocalTime horaEstimadaDeChegada;
+  private String localDePartidaComDescricao;
+  private String localDeChegadaComDescricao;
+  private BigDecimal ValorEstimado;
 
 
   public static ViagemResponseDTO toDTO(Viagem viagem){
-
     ViagemResponseDTO viagemResponseDTO = new ViagemResponseDTO();
     viagemResponseDTO.setDataDeSaida(viagem.getDataInicioViagem());
     viagemResponseDTO.setHoraDeSaida(viagem.getHoraDoInicioDaViagem());
-    this.horaEstimadaDeChegada = viagem.calcularHoraEstimadaDeChegada();
-    this.dataEstimadaDeChegada = viagem.calcularDataDeChegada();
-    this.localDePartidaComDescricao = viagem.getLocalDePartida();
-    this.localDeSaidaComDescricao = viagem.getLocalDeChegada();
-    this.ValorEstimado = viagem.getValorEstimado();
+    viagemResponseDTO.setDataEstimadaDeChegada(viagem.calcularDataDeChegada());
+    viagemResponseDTO.setHoraEstimadaDeChegada(viagem.calcularHoraEstimadaDeChegada());
+    viagemResponseDTO.setLocalDePartidaComDescricao(viagem.getLocalDePartida());
+    viagemResponseDTO.setLocalDeChegadaComDescricao(viagem.getLocalDeChegada());
 
     return viagemResponseDTO; 
   }

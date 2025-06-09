@@ -1,6 +1,10 @@
 package br.com.aeviagens.backend.endpoints;
 
+import br.com.aeviagens.backend.domain.Viagem;
+import br.com.aeviagens.backend.endpoints.dto.ViagemResponseDTO;
+import br.com.aeviagens.backend.services.ViagemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,8 +17,12 @@ public class ViagemEndpoint {
   private ViagemService viagemService;
 
   @GetMapping
-  public ViagemResponseDTO retornoDeViagens(String hash) {
-    Viagem viagem = viagemService.recuperarViagemPorHash(hash);
-    return ViagemResponseDTO.toDTO(viagem);
+  public ResponseEntity<ViagemResponseDTO> retornoDeViagens(String hash) {
+    try {
+      Viagem viagem = viagemService.recuperarViagemPorHash(hash);
+      return ResponseEntity.ok(ViagemResponseDTO.toDTO(viagem));
+    }catch(IllegalArgumentException ex) {
+      return ResponseEntity.badRequest().build();
+    }
   } 
 }
