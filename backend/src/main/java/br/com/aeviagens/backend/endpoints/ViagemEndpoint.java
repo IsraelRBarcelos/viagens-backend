@@ -22,7 +22,7 @@ public class ViagemEndpoint {
       Viagem viagem = viagemService.recuperarViagemPorHash(hash);
       return ResponseEntity.ok(ViagemResponseDTO.toDTO(viagem));
     }catch(IllegalArgumentException ex) {
-      return ResponseEntity.badRequest().build();
+      return ResponseEntity.status(400).build();
     }
   } 
 }

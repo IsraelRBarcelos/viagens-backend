@@ -5,32 +5,46 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Enumerated;
-import lombok.Getter;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Viagem {
   
   private final String padraoDeFormatacaoDeData = "ddMMyyyy";
   private final String padraoDeFormatacaoDeTempo = "HHmm";
+  @Getter
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
+
   private String dataInicioViagem;
   private String horaDoInicioDaViagem;
   private String tempoEstimadoViagem;
-  @Getter
-  private Participantes participantes;
+
   @Getter
   private BigDecimal valorEstimado;
-  @Enumerated
+  @Enumerated(EnumType.STRING)
   private Local localDePartida;
-  @Enumerated
+  @Enumerated(EnumType.STRING)
   private Local localDeChegada;
   @Getter
-  private ArrayList<Local> paradas;
-
-
-  public Viagem() {
-
-  }
+  @ElementCollection(targetClass = Local.class)
+  @Enumerated(EnumType.STRING)
+  private List<Local> paradas = new ArrayList<>();
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @ElementCollection(targetClass = Participante.class)
+  private ArrayList<Participante> participantes;
 
   public LocalDate getDataInicioViagem() {
     DateTimeFormatter formatador = DateTimeFormatter.ofPattern(padraoDeFormatacaoDeData);
@@ -42,34 +56,18 @@ public class Viagem {
     return LocalTime.parse(this.horaDoInicioDaViagem, formatador);
   }
 
-    public String getLocalDePartida() {
+  public String getLocalDePartida() {
     return this.localDePartida.mostrarConteudo();
   }
-
     public String getLocalDeChegada() {
     return this.localDeChegada.mostrarConteudo();
   }
 
-  public Viagem comParadas(ArrayList<Local> paradas ) {
-    this.paradas = paradas;
-    return this;
-  }
-
-  public Viagem comDataDeInicio(String dataInicio) {
-    this.dataInicioViagem = dataInicio;
-    return this;
-  }
-
-  public Viagem comTempoEstimado(String tempoEstimado) {
-    this.tempoEstimadoViagem = tempoEstimado;
-    return this;
-  }
-
-  public Viagem comParticipantes(Participantes participantes) {
-    if(participantes.isNotEmpty()) {
-      this.participantes = participantes;
+  public Viagem comParticipantes(ArrayList<Participante> participantes) {
+    if(participantes.isEmpty()) {
+      return this;
     }
-
+    this.participantes = participantes;
     return this;
   }
 

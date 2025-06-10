@@ -2,10 +2,11 @@ package br.com.aeviagens.backend.domain;
 
 public enum Local {
   CANOAS("Canoas"),
+  ROTA_80_PORTO_ALEGRE("Graal Rota 80, Porto Alegre"),
   PORTO_ALEGRE("Porto Alegre"),
   FLORIANOPOLIS("Florianópolis");
 
-  public String nome;
+  public final String nome;
   public String descricao;
 
   private Local(String nome) {
@@ -18,7 +19,7 @@ public enum Local {
   }
 
   public String mostrarConteudo() {
-    if(descricao.isBlank()) {
+    if(descricao == null || descricao.isBlank()) {
       return nome;
     }
 
