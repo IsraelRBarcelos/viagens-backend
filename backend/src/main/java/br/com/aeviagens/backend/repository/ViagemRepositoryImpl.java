@@ -1,43 +1,29 @@
 package br.com.aeviagens.backend.repository;
 
 import br.com.aeviagens.backend.domain.Viagem;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
-public class ViagemRepositoryImpl implements ViagemRepositoryCustom {
+public class ViagemRepositoryImpl implements ViagemRepository {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    @Autowired
+    private ViagemJPARepository viagemJpaRepository;
 
     @Override
     public Viagem recuperarViagemPorHash(String hash) throws IllegalArgumentException {
-        List<Viagem> viagem = entityManager.createQuery(
-                        "SELECT v FROM Viagem v WHERE v.hash = :hash", Viagem.class)
-                .setParameter("hash", hash)
-                .getResultList();
-
-        if (!viagem.isEmpty()) {
-            return viagem.getFirst();
-        }
-
-        throw new IllegalArgumentException("hash invalida");
-
+        return viagemJpaRepository.findByHash(hash)
+                .orElseThrow(() -> new IllegalArgumentException("hash inválida"));
     }
 
     @Override
-    @Transactional
     public void salvarViagem(Viagem viagem) {
-        entityManager.persist(viagem);
+        viagemJpaRepository.save(viagem);
     }
 
     @Override
     public void removerViagemPorHash(String hash) {
-        Viagem viagemASerRemovida = this.recuperarViagemPorHash(hash);
-        entityManager.remove(viagemASerRemovida);
+        Viagem viagem = recuperarViagemPorHash(hash);
+        viagemJpaRepository.delete(viagem);
     }
 }
