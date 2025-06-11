@@ -1,27 +1,14 @@
 package br.com.aeviagens.backend.endpoints.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class DefaultResponseDTO<T> {
-    // Getters e setters
+
     private T data;
     private String message;
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public DefaultResponseDTO() {}
 
     public DefaultResponseDTO(T data, String message) {
         this.data = data;
