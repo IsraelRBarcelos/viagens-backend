@@ -12,13 +12,23 @@ public class ViagemServiceImpl implements ViagemService{
     ViagemRepository viagemRepository;
 
     @Override
-    public Viagem recuperarViagemPorHash(String hash) {
+    public Viagem recuperarViagemPorHash(String hash) throws IllegalArgumentException {
         Viagem viagemRecuperada =  viagemRepository.recuperarViagemPorHash(hash);
 
-        if(viagemRecuperada.getId() == null) {
+        if(viagemRecuperada == null) {
             throw new IllegalArgumentException("hash invalido");
         }
 
         return viagemRecuperada;
+    }
+
+    @Override
+    public void salvarViagem(Viagem viagem) {
+        viagemRepository.salvarViagem(viagem);
+    }
+
+    @Override
+    public void removerViagemPorHash(String hash) {
+        viagemRepository.removerViagemPorHash(hash);
     }
 }
