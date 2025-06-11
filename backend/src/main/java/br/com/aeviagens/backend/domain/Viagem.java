@@ -6,7 +6,9 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+import br.com.aeviagens.backend.constants.DateTimeFormat;
 import jakarta.persistence.Enumerated;
 
 import jakarta.persistence.*;
@@ -20,17 +22,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Viagem {
-  
-  private final String padraoDeFormatacaoDeData = "ddMMyyyy";
-  private final String padraoDeFormatacaoDeTempo = "HHmm";
+
   @Getter
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
+  private String hash;
 
   private String dataInicioViagem;
   private String horaDoInicioDaViagem;
-  private String tempoEstimadoViagem;
+  private String tempoEstimadodeChegada;
 
   @Getter
   private BigDecimal valorEstimado;
@@ -43,45 +45,38 @@ public class Viagem {
   @Enumerated(EnumType.STRING)
   private List<Local> paradas = new ArrayList<>();
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  @ElementCollection(targetClass = Participante.class)
-  private ArrayList<Participante> participantes;
+  private List<Participante> participantes = new ArrayList<>();
 
   public LocalDate getDataInicioViagem() {
-    DateTimeFormatter formatador = DateTimeFormatter.ofPattern(padraoDeFormatacaoDeData);
+    DateTimeFormatter formatador = DateTimeFormatter.ofPattern(DateTimeFormat.DATE_FORMAT.getFormat());
     return LocalDate.parse(this.dataInicioViagem, formatador);
   }
 
   public LocalTime getHoraDoInicioDaViagem() {
-    DateTimeFormatter formatador = DateTimeFormatter.ofPattern(padraoDeFormatacaoDeTempo);
+    DateTimeFormatter formatador = DateTimeFormatter.ofPattern(DateTimeFormat.TIME_FORMAT.getFormat());
     return LocalTime.parse(this.horaDoInicioDaViagem, formatador);
   }
 
   public String getLocalDePartida() {
     return this.localDePartida.mostrarConteudo();
   }
-    public String getLocalDeChegada() {
+
+  public String getLocalDeChegada() {
     return this.localDeChegada.mostrarConteudo();
   }
-
-  public Viagem comParticipantes(ArrayList<Participante> participantes) {
-    if(participantes.isEmpty()) {
-      return this;
-    }
-    this.participantes = participantes;
-    return this;
-  }
-
-  public Viagem comValor(BigDecimal valor) {
-    this.valorEstimado = valor;
-
-    return this;
-  }
   
-  public LocalDate calcularDataDeChegada() {
+  public LocalDate calcularDataDeChegada(int tempoEstimadoDeViagens) {
     return null;
   }
 
-  public LocalTime calcularHoraEstimadaDeChegada() {
+  public static String calcularHoraEstimadaDeChegada(int tempoEstimadoDeViagem) {
     return null;
+  }
+
+  @PrePersist
+  public void gerarHash() {
+    if (this.hash == null || this.hash.isBlank()) {
+      this.hash = UUID.randomUUID().toString();
+    }
   }
 }
