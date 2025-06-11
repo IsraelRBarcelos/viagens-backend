@@ -51,7 +51,7 @@ public class ViagemEndpoint {
     return ResponseEntity.ok().build();
   }
 
-  @DeleteMapping("/remove/{hash}")
+  @DeleteMapping("/{hash}")
   public ResponseEntity<DefaultResponseDTO<Void>> removerViagem(@PathVariable String hash) {
     if (hash == null || hash.isBlank()) {
       return ResponseEntity
