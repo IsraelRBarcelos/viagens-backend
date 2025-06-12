@@ -73,6 +73,4 @@ public class ViagemEndpoint {
               .body(DefaultResponseDTO.error("Erro interno ao tentar remover a viagem."));
     }
   }
-
-
 }

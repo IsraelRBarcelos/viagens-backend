@@ -1,6 +1,8 @@
-package br.com.aeviagens.backend.repository;
+package br.com.aeviagens.backend.repository.jpa.impl;
 
 import br.com.aeviagens.backend.domain.Viagem;
+import br.com.aeviagens.backend.repository.ViagemRepository;
+import br.com.aeviagens.backend.repository.jpa.ViagemJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
