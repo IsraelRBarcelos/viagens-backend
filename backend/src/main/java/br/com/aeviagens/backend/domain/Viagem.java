@@ -29,11 +29,12 @@ public class Viagem {
   private Long id;
 
   private String hash;
+  private Participante host;
 
   private String dataInicioViagem;
   private String horaDoInicioDaViagem;
   private String tempoEstimadodeChegada;
-
+  private int numeroMaximoDePassageiros;
   private BigDecimal valorEstimado;
   @Enumerated(EnumType.STRING)
   private Local localDePartida;
