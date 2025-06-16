@@ -10,11 +10,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class ParticipanteServiceImpl implements  ParticipanteService {
 
+    private final ParticipanteRepository participanteRepository;
+
     @Autowired
-    private ParticipanteRepository participanteRepository;
+    public ParticipanteServiceImpl(ParticipanteRepository participanteRepository) {
+        this.participanteRepository = participanteRepository;
+    }
 
     @Override
     public Viagem adicionarParticipanteAViagem(AdicionarParticipanteRequestDTO request) {
-        return participanteRepository.adicionarParticipanteEmUmaViagem(request.getHash(), AdicionarParticipanteMapper.toParticipante(request.getDadosParticipante()));
+        return this.participanteRepository.adicionarParticipanteEmUmaViagem(request.getHash(), AdicionarParticipanteMapper.toParticipante(request.getDadosParticipante()));
     }
 }

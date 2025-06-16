@@ -7,7 +7,6 @@ import br.com.aeviagens.backend.domain.validation.Validator;
 import br.com.aeviagens.backend.domain.validation.VerificarHost;
 import br.com.aeviagens.backend.domain.validation.VerificarPassageiros;
 import br.com.aeviagens.backend.repository.ParticipanteRepository;
-import br.com.aeviagens.backend.repository.jpa.ParticipanteJPARepository;
 import br.com.aeviagens.backend.repository.jpa.ViagemJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,11 +14,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ParticipanteRepositoryImpl implements ParticipanteRepository {
 
-    @Autowired
-    private ParticipanteJPARepository participanteJPARepository;
+    private final ViagemJPARepository viagemJPARepository;
 
     @Autowired
-    private ViagemJPARepository viagemJPARepository;
+    public ParticipanteRepositoryImpl(ViagemJPARepository viagemJPARepository) {
+        this.viagemJPARepository = viagemJPARepository;
+    }
 
 
     @Override

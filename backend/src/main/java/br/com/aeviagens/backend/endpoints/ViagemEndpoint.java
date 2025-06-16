@@ -19,7 +19,7 @@ public class ViagemEndpoint {
 
   @PostMapping("/{hash}")
   public ResponseEntity<DefaultResponseDTO<ViagemResponseDTO>> retornoDeViagens(@PathVariable String hash) {
-    if (hash == null || hash.isBlank()) {
+    if (hash.isBlank()) {
       return ResponseEntity
               .badRequest()
               .body(DefaultResponseDTO.error("Hash da viagem não pode ser nulo ou vazio."));
@@ -53,7 +53,7 @@ public class ViagemEndpoint {
 
   @DeleteMapping("/{hash}")
   public ResponseEntity<DefaultResponseDTO<Void>> removerViagem(@PathVariable String hash) {
-    if (hash == null || hash.isBlank()) {
+    if (hash.isBlank()) {
       return ResponseEntity
               .badRequest()
               .body(DefaultResponseDTO.error("Hash é obrigatório para encontrar uma viagem."));

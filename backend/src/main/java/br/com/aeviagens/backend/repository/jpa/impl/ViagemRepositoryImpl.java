@@ -9,8 +9,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class ViagemRepositoryImpl implements ViagemRepository {
 
+    private final ViagemJPARepository viagemJpaRepository;
+
     @Autowired
-    private ViagemJPARepository viagemJpaRepository;
+    public ViagemRepositoryImpl(ViagemJPARepository viagemJpaRepository) {
+        this.viagemJpaRepository = viagemJpaRepository;
+    }
 
     @Override
     public Viagem recuperarViagemPorHash(String hash) throws IllegalArgumentException {

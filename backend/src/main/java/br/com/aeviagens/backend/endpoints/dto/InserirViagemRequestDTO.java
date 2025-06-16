@@ -1,14 +1,17 @@
 package br.com.aeviagens.backend.endpoints.dto;
 
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Getter
+@Setter
 public class InserirViagemRequestDTO {
 
     @NotNull(message = "O local de saída é obrigatório")
@@ -25,6 +28,10 @@ public class InserirViagemRequestDTO {
 
     @Min(value = 1, message = "O tempo estimado deve ser maior que 0")
     private int tempoEstimadoDeViagem;
+
+    @Min(value = 1, message = "O numero minimo de passageiros é 1")
+    @Max(value = 4, message = "O numero maximo de passageiros é 4")
+    private int numeroMaximoDePassageiros;
 
     @NotNull(message = "O valor estimado é obrigatório")
     private BigDecimal valorEstimado;

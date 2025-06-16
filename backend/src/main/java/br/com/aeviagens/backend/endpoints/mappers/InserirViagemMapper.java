@@ -15,6 +15,7 @@ public class InserirViagemMapper {
                 .valorEstimado(request.getValorEstimado())
                 .localDePartida(Local.valueOf(request.getLocalDeSaida()))
                 .localDeChegada(Local.valueOf(request.getLocalDeChegada()))
+                .numeroMaximoDePassageiros(request.getNumeroMaximoDePassageiros())
                 .build();
     }
 }
