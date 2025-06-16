@@ -1,4 +1,4 @@
-package br.com.aeviagens.backend.repository;
+package br.com.aeviagens.backend.repository.jpa;
 
 import br.com.aeviagens.backend.domain.Viagem;
 import org.springframework.data.jpa.repository.JpaRepository;

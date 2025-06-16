@@ -21,9 +21,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
 public class Viagem {
 
-  @Getter
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -34,13 +34,11 @@ public class Viagem {
   private String horaDoInicioDaViagem;
   private String tempoEstimadodeChegada;
 
-  @Getter
   private BigDecimal valorEstimado;
   @Enumerated(EnumType.STRING)
   private Local localDePartida;
   @Enumerated(EnumType.STRING)
   private Local localDeChegada;
-  @Getter
   @ElementCollection(targetClass = Local.class)
   @Enumerated(EnumType.STRING)
   private List<Local> paradas = new ArrayList<>();
