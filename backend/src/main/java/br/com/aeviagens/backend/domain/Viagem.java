@@ -29,11 +29,13 @@ public class Viagem {
   private Long id;
 
   private String hash;
+  @OneToOne
+  private Participante host;
 
   private String dataInicioViagem;
   private String horaDoInicioDaViagem;
   private String tempoEstimadodeChegada;
-
+  private int numeroMaximoDePassageiros;
   private BigDecimal valorEstimado;
   @Enumerated(EnumType.STRING)
   private Local localDePartida;
@@ -62,7 +64,7 @@ public class Viagem {
   public String getLocalDeChegada() {
     return this.localDeChegada.mostrarConteudo();
   }
-  
+
   public LocalDate calcularDataDeChegada(int tempoEstimadoDeViagens) {
     return null;
   }
