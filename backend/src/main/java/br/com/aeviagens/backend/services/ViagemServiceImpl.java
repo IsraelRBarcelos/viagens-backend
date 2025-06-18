@@ -23,8 +23,8 @@ public class ViagemServiceImpl implements ViagemService{
     }
 
     @Override
-    public void salvarViagem(Viagem viagem) {
-        viagemRepository.salvarViagem(viagem);
+    public Viagem salvarViagem(Viagem viagem) {
+        return viagemRepository.salvarViagem(viagem);
     }
 
     @Override

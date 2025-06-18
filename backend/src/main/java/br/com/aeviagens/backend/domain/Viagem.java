@@ -46,6 +46,8 @@ public class Viagem {
   private List<Local> paradas = new ArrayList<>();
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Participante> participantes = new ArrayList<>();
+  @ManyToOne
+  private Catalogo catalogo;
 
   public LocalDate getDataInicioViagem() {
     DateTimeFormatter formatador = DateTimeFormatter.ofPattern(DateTimeFormat.DATE_FORMAT.getFormat());

@@ -2,6 +2,7 @@ package br.com.aeviagens.backend.repository.jpa.impl;
 
 import br.com.aeviagens.backend.domain.Participante;
 import br.com.aeviagens.backend.domain.Viagem;
+import br.com.aeviagens.backend.repository.jpa.ParticipanteJPARepository;
 import br.com.aeviagens.backend.repository.jpa.ViagemJPARepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,11 +17,13 @@ class ParticipanteRepositoryImplTest {
 
     private ViagemJPARepository viagemJPARepository;
     private ParticipanteRepositoryImpl participanteRepositoryImpl;
+    private ParticipanteJPARepository participanteJPARepository;
 
     @BeforeEach
     void setUp() {
         viagemJPARepository = mock(ViagemJPARepository.class);
-        participanteRepositoryImpl = new ParticipanteRepositoryImpl(viagemJPARepository);
+        participanteJPARepository = mock(ParticipanteJPARepository.class);
+        participanteRepositoryImpl = new ParticipanteRepositoryImpl(viagemJPARepository, participanteJPARepository);
     }
 
     @Test
@@ -61,5 +64,20 @@ class ParticipanteRepositoryImplTest {
         );
 
         assertEquals("hash inválida", exception.getMessage());
+    }
+
+    @Test
+    void deveBuscarParticipantePeloId() {
+        // Arrange
+        Long idParticipante = 1L;
+        Participante participante = new Participante();
+
+        when(participanteJPARepository.findById(anyLong())).thenReturn(Optional.of(participante));
+
+        // Act + Assert
+
+        Optional<Participante> resultado = participanteRepositoryImpl.recuperarParticipantePeloId(idParticipante);
+
+        assertEquals(resultado.orElseThrow(), participante);
     }
 }
