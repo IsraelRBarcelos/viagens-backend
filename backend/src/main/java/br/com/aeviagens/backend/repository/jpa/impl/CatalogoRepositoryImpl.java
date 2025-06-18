@@ -52,7 +52,13 @@ public class CatalogoRepositoryImpl implements CatalogoRepository {
         LogUtil.logEntrada(logger, this.getClass(), "adicionarViagemAoCatalogo");
         catalogo.getViagens().add(novaViagem);
         Catalogo novoCatalogo = catalogoJPARepository.save(catalogo);
-        logger.info("Entidade criada, {}",novoCatalogo);
+        logger.info("Entidade criada, {}", novoCatalogo);
         return novaViagem;
+    }
+
+    @Override
+    public void removerCatalogoPorHash(String hash) {
+        Catalogo catalogo = recuperarCatalogo(hash).orElseThrow();
+        catalogoJPARepository.delete(catalogo);
     }
 }

@@ -75,4 +75,12 @@ public class CatalogoServiceImpl implements  CatalogoService{
         }
         return catalogo.get();
     }
+
+    @Override
+    public void removerCatalogoPorHash(String hash) {
+            LogUtil.logEntrada(logger, this.getClass(), "removerCatalogoPorHash");
+            catalogoRepository.removerCatalogoPorHash(hash);
+            logger.info("Viagem de hash {} foi removida.", hash);
+
+    }
 }

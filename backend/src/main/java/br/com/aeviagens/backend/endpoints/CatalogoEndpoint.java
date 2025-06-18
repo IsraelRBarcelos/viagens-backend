@@ -10,6 +10,7 @@ import br.com.aeviagens.backend.util.LogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,6 +58,28 @@ public class CatalogoEndpoint {
         }catch(DomainException ex) {
             return ResponseEntity.status(400).body(DefaultResponseDTO.error(ex.getMessage()));
         }
+    }
 
+    @DeleteMapping("/{hash}")
+    public ResponseEntity<DefaultResponseDTO<Void>> removerCatalogo(@RequestBody RemoverCatalogoRequestDTO removerCatalogoRequestDTO) {
+        if (removerCatalogoRequestDTO.getHash().isBlank()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(DefaultResponseDTO.error("Hash é obrigatório para encontrar um catalogo."));
+        }
+
+        try {
+            catalogoService.removerCatalogoPorHash(removerCatalogoRequestDTO.getHash());
+            return ResponseEntity
+                    .ok(DefaultResponseDTO.success(null, "Viagem removida com sucesso."));
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(DefaultResponseDTO.error("Viagem não encontrada para o hash informado."));
+        } catch (Exception ex) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(DefaultResponseDTO.error("Erro interno ao tentar remover a viagem."));
+        }
     }
 }

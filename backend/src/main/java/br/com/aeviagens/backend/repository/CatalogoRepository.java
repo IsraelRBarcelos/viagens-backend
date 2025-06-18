@@ -12,4 +12,6 @@ public interface CatalogoRepository {
     Catalogo criarCatalogo(String titulo, String descricao, Participante host);
 
     Viagem adicionarViagemAoCatalogo(Catalogo catalogo, Viagem novaViagem);
+
+    void removerCatalogoPorHash(String hash);
 }

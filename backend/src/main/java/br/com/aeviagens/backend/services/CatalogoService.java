@@ -14,4 +14,6 @@ public interface CatalogoService {
     Viagem adicionarViagemAoCatalogo(AdicionarViagemAoCatalogoRequestDTO adicionarViagemAoCatalogoRequestDTO) throws DomainException;
 
     Catalogo verificarExistenciaDeCatalogo(String hash) throws DomainException;
+
+    void removerCatalogoPorHash(String hash);
 }
