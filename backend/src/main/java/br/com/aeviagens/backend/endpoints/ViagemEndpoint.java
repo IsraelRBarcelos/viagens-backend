@@ -18,7 +18,7 @@ public class ViagemEndpoint {
   private ViagemService viagemService;
 
   @PostMapping("/{hash}")
-  public ResponseEntity<DefaultResponseDTO<ViagemResponseDTO>> retornoDeViagens(@PathVariable String hash) {
+  public ResponseEntity<DefaultResponseDTO<RecuperarViagemResponseDTO>> retornoDeViagens(@PathVariable String hash) {
     if (hash.isBlank()) {
       return ResponseEntity
               .badRequest()
@@ -27,7 +27,7 @@ public class ViagemEndpoint {
 
     try {
       Viagem viagem = viagemService.recuperarViagemPorHash(hash);
-      ViagemResponseDTO dto = ViagemResponseDTO.toDTO(viagem); //
+      RecuperarViagemResponseDTO dto = RecuperarViagemResponseDTO.toDTO(viagem); //
 
       return ResponseEntity
               .ok(DefaultResponseDTO.success(dto, "Viagem recuperada com sucesso."));
@@ -44,11 +44,11 @@ public class ViagemEndpoint {
 
 
   @PostMapping
-  public ResponseEntity<InserirViagemResponseDTO> inserirNovaViagem(@Valid @RequestBody InserirViagemRequestDTO request) {
+  public ResponseEntity<DefaultResponseDTO<InserirViagemResponseDTO>> inserirNovaViagem(@Valid @RequestBody InserirViagemRequestDTO request) {
     Viagem viagem = InserirViagemMapper.toViagem(request);
-    viagemService.salvarViagem(viagem);
+    Viagem viagemCompleta = viagemService.salvarViagem(viagem);
 
-    return ResponseEntity.ok().build();
+    return ResponseEntity.ok().body(DefaultResponseDTO.success(InserirViagemMapper.toDTO(viagemCompleta)));
   }
 
   @DeleteMapping("/{hash}")

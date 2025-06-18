@@ -23,8 +23,9 @@ public class ViagemRepositoryImpl implements ViagemRepository {
     }
 
     @Override
-    public void salvarViagem(Viagem viagem) {
+    public Viagem salvarViagem(Viagem viagem) {
         viagemJpaRepository.save(viagem);
+        return viagem;
     }
 
     @Override

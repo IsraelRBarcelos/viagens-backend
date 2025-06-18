@@ -2,17 +2,11 @@ package br.com.aeviagens.backend.endpoints;
 
 import br.com.aeviagens.backend.domain.Local;
 import br.com.aeviagens.backend.domain.Viagem;
-import br.com.aeviagens.backend.endpoints.dto.AdicionarParticipanteRequestDTO;
-import br.com.aeviagens.backend.endpoints.dto.DadosParticipanteDTO;
 import br.com.aeviagens.backend.endpoints.dto.InserirViagemRequestDTO;
-import br.com.aeviagens.backend.fixtures.DadosDeLocalizacaoFixture;
-import br.com.aeviagens.backend.fixtures.DadosDoCartaoFixture;
-import br.com.aeviagens.backend.repository.ParticipanteRepository;
 import br.com.aeviagens.backend.repository.ViagemRepository;
 import br.com.aeviagens.backend.repository.jpa.ViagemJPARepository;
 import br.com.aeviagens.backend.services.ParticipanteServiceImpl;
 import br.com.aeviagens.backend.services.ViagemService;
-import br.com.aeviagens.backend.services.ViagemServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -27,11 +21,12 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
-import java.security.InvalidAlgorithmParameterException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -82,7 +77,7 @@ public class ViagemEndpointTest {
                 .build();
 
         // Mockar o comportamento do serviço
-        Mockito.when(viagemService.recuperarViagemPorHash(Mockito.anyString()))
+        when(viagemService.recuperarViagemPorHash(Mockito.anyString()))
                 .thenReturn(viagemMock);
 
         // Act + Assert
@@ -110,7 +105,7 @@ public class ViagemEndpointTest {
                 .build();
 
         // Mockar o comportamento do serviço
-        Mockito.when(viagemService.recuperarViagemPorHash(Mockito.anyString()))
+        when(viagemService.recuperarViagemPorHash(Mockito.anyString()))
                 .thenThrow(new IllegalArgumentException("hash invalida"));
 
         // Act + Assert
@@ -164,7 +159,7 @@ public class ViagemEndpointTest {
                 .build();
 
         // Mockar o comportamento do serviço
-        Mockito.when(viagemService.recuperarViagemPorHash(Mockito.anyString()))
+        when(viagemService.recuperarViagemPorHash(Mockito.anyString()))
                 .thenThrow(new NullPointerException("hash invalida"));
 
 
@@ -197,7 +192,7 @@ public class ViagemEndpointTest {
                 .build();
 
         // Mocka a conversão e a persistência
-        Mockito.doNothing().when(viagemService).salvarViagem(Mockito.any(Viagem.class));
+        when(viagemService.salvarViagem(any())).thenReturn(viagem);
 
         mockMvc.perform(post("/viagens")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -227,7 +222,7 @@ public class ViagemEndpointTest {
                 .build();
 
         // Mocka a conversão e a persistência
-        Mockito.doNothing().when(viagemService).salvarViagem(Mockito.any(Viagem.class));
+        when(viagemService.salvarViagem(any())).thenReturn(viagem);
 
         mockMvc.perform(post("/viagens")
                         .contentType(MediaType.APPLICATION_JSON)

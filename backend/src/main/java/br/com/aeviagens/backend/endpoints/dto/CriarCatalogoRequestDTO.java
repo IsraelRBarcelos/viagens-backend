@@ -3,12 +3,12 @@ package br.com.aeviagens.backend.endpoints.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
-@Builder
-@Setter
 @Getter
+@Builder
 @AllArgsConstructor
-public class InserirViagemResponseDTO {
-    public String hash;
+public class CriarCatalogoRequestDTO {
+    private String titulo;
+    private String descricao;
+    private Long idHost;
 }

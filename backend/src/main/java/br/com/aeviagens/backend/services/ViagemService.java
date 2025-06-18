@@ -5,6 +5,6 @@ import br.com.aeviagens.backend.domain.Viagem;
 public interface ViagemService {
 
     Viagem recuperarViagemPorHash(String hash) throws IllegalArgumentException;
-    void salvarViagem(Viagem viagem);
+    Viagem salvarViagem(Viagem viagem);
     void removerViagemPorHash(String hash);
 }
