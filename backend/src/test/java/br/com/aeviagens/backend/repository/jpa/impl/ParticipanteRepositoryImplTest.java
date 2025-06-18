@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -28,7 +29,7 @@ class ParticipanteRepositoryImplTest {
 
     @Test
     void deveAdicionarParticipanteQuandoHashForValida() {
-        String hash = "abc123";
+        String hash = String.valueOf(UUID.randomUUID());
         Participante participante = Participante.builder()
                 .cpf("1234")
                 .build();
@@ -37,7 +38,6 @@ class ParticipanteRepositoryImplTest {
                 .participantes(new ArrayList<Participante>())
                 .numeroMaximoDePassageiros(4)
                 .build();
-        viagem.getParticipantes().add(participante);
 
         when(viagemJPARepository.findByHash(hash)).thenReturn(Optional.of(viagem));
         when(viagemJPARepository.save(any(Viagem.class))).thenAnswer(i -> i.getArgument(0));
