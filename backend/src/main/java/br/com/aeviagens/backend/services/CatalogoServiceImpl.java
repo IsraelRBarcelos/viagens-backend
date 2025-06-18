@@ -24,11 +24,13 @@ public class CatalogoServiceImpl implements  CatalogoService{
 
     private final CatalogoRepository catalogoRepository;
     private final ParticipanteService participanteService;
+    private final ViagemService viagemService;
 
     @Autowired
-    public CatalogoServiceImpl(CatalogoRepository catalogoRepository, ParticipanteService participanteService) {
+    public CatalogoServiceImpl(CatalogoRepository catalogoRepository, ParticipanteService participanteService, ViagemService viagemService) {
         this.catalogoRepository = catalogoRepository;
         this.participanteService = participanteService;
+        this.viagemService = viagemService;
     }
 
     @Override
@@ -58,7 +60,8 @@ public class CatalogoServiceImpl implements  CatalogoService{
         LogUtil.logEntrada(logger, this.getClass(), "adicionarViagemAoCatalogo");
         Catalogo catalogo = verificarExistenciaDeCatalogo(adicionarViagemAoCatalogoRequestDTO.getHashDoCatalogo());
         LogUtil.mostrarObjetoEmqualquerPonto(logger, this.getClass(), "adicionarViagemAoCatalogoRequestDTO", catalogo);
-        Viagem novaViagem = InserirViagemMapper.toViagem(adicionarViagemAoCatalogoRequestDTO.getDadosDaViagem());
+        Viagem novaViagem = viagemService.salvarViagem(InserirViagemMapper.toViagem(adicionarViagemAoCatalogoRequestDTO.getDadosDaViagem()));
+        logger.info("Viagem salva, adicionando viagem ao catalogo de hash {}", catalogo.getHash());
         return catalogoRepository.adicionarViagemAoCatalogo(catalogo, novaViagem);
     }
 
