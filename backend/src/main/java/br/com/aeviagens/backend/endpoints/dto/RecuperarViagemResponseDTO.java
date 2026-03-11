@@ -8,12 +8,16 @@ import java.util.List;
 
 import br.com.aeviagens.backend.domain.Participante;
 import br.com.aeviagens.backend.domain.Viagem;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class ViagemResponseDTO {
+@Builder
+@AllArgsConstructor
+public class RecuperarViagemResponseDTO {
   private LocalDate dataDeSaida;
   private LocalDate dataEstimadaDeChegada;
   private LocalTime horaDeSaida;
@@ -24,14 +28,13 @@ public class ViagemResponseDTO {
   private List<Participante> participantes = new ArrayList<>();
 
 
-  public static ViagemResponseDTO toDTO(Viagem viagem){
-    ViagemResponseDTO viagemResponseDTO = new ViagemResponseDTO();
-    viagemResponseDTO.setDataDeSaida(viagem.getDataInicioViagem());
-    viagemResponseDTO.setHoraDeSaida(viagem.getHoraDoInicioDaViagem());
-    viagemResponseDTO.setLocalDePartidaComDescricao(viagem.getLocalDePartida());
-    viagemResponseDTO.setLocalDeChegadaComDescricao(viagem.getLocalDeChegada());
-    viagemResponseDTO.setParticipantes(viagem.getParticipantes());
-
-    return viagemResponseDTO; 
+  public static RecuperarViagemResponseDTO toDTO(Viagem viagem){
+    return RecuperarViagemResponseDTO.builder()
+            .dataDeSaida(viagem.getDataInicioViagem())
+            .horaDeSaida(viagem.getHoraDoInicioDaViagem())
+            .localDePartidaComDescricao(viagem.getLocalDePartida())
+            .localDeChegadaComDescricao(viagem.getLocalDeChegada())
+            .participantes(viagem.getParticipantes())
+            .build();
   }
 }

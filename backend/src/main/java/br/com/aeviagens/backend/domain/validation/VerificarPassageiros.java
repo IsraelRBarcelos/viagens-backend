@@ -9,8 +9,8 @@ public class VerificarPassageiros extends Validator {
     protected void executarValidacao(Viagem viagem, Participante participante) {
         boolean presente = viagem.getParticipantes().stream()
                 .anyMatch(p -> p.getCpf().equals(participante.getCpf()));
-        if (!presente) {
-            throw new RuntimeException("Participante não está na viagem.");
+        if (presente) {
+            throw new RuntimeException("Participante já está na viagem.");
         }
     }
 }
